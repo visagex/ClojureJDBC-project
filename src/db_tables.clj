@@ -1,11 +1,20 @@
 (ns db-tables
   (:require [next.jdbc :as jdbc]
             [honey.sql :as sql]
-            [honey.sql.helpers :as h]))
+            [honey.sql.helpers :as h]
+            [commands.dispatch :refer [handle-command]]))
 
 (sql/set-dialect! :mysql)
 
 ;;(with-columns [:id :int [:not nil]] [:name [:varchar 32] [:default ""]])
+(def db
+  {:dbtype "mysql"
+   :dbname "test_db"
+   :host "127.0.0.1"
+   :port 3306
+   :user "root"})
+
+(def ds (jdbc/get-datasource db))
 
 (defn create-event-table [ds]
   (jdbc/execute! ds
@@ -52,3 +61,8 @@
   (create-user-table ds)
   (create-event-table ds)
   (create-attendance-table ds))
+
+
+;;make it explicit if you want to create tables
+(defmethod handle-command [:init :table]
+  (create-all ds))
