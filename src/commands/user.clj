@@ -63,20 +63,22 @@
            (let [name (first remaining-args)
                  query (sql/format (-> (h/delete-from :USER)
                                        (h/where [:= :name name])))]
-             (jdbc/execute! ds query)))))
+             (jdbc/execute! ds query)
+             (println "successfully deleted!")))))
      (catch Exception e
        (println "Error deleting user: " (.getMessage e))))))
 
 (defmethod handle-command [:update :user] [{:keys [args]}]
   ;;get user id as first arg and then get what they wish to update and third value being the new value
   ((try
-     (let [id (first args)
-           update-col (second args)
-           new-value (nth args 2)
-           query (sql/format (-> (h/update :USERS)
-                                 (h/set {update-col new-value})
-                                 (h/where [:= :userID id])))]
-       (jdbc/execute! ds query))
+     (let [remaining-args (rest args)]
+       (let [id (first remaining-args)
+             update-col (second remaining-args)
+             new-value (nth remaining-args 2)
+             query (sql/format (-> (h/update :USERS)
+                                   (h/set {update-col new-value})
+                                   (h/where [:= :userID id])))]
+         (jdbc/execute! ds query)))
      (catch Exception e
        (println "Error updating user: " (.getMessage e))))))
 
