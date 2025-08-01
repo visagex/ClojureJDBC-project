@@ -82,6 +82,6 @@
      (catch Exception e
        (println "Error updating user: " (.getMessage e))))))
 
-(defmethod handle-command [:help :user]
+(defmethod handle-command [:help :user] [{:keys [args]}]
   (println ""))
 

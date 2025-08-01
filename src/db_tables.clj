@@ -14,7 +14,7 @@
    :port 3306
    :user "root"})
 
-(def ds (jdbc/get-datasource db))
+(def data-source (jdbc/get-datasource db))
 
 (defn create-event-table [ds]
   (jdbc/execute! ds
@@ -64,5 +64,5 @@
 
 
 ;;make it explicit if you want to create tables
-(defmethod handle-command [:init :table]
-  (create-all ds))
+(defmethod handle-command [:init :table] [{:keys [args]}]
+  (create-all data-source))
