@@ -2,14 +2,8 @@
   (:require [commands.dispatch :refer [handle-command]]
             [next.jdbc :as jdbc]
             [honey.sql :as sql]
-            [honey.sql.helpers :as h]))
-
-
-(def ds (jdbc/get-datasource {:dbtype "mysql"
-                              :dbname "test_db"
-                              :host "127.0.0.1"
-                              :port 3306
-                              :user "root"}))
+            [honey.sql.helpers :as h]
+            [db-tables :refer [data-source]]))
 
 
 (defmethod handle-command [:select :events] [{:keys [args]}]
@@ -20,7 +14,7 @@
                     (sql/format (-> (h/select :*)
                                     (h/from :EVENTS)
                                     (h/where [:= :eventID event-id])))))
-          results (jdbc/execute! ds query)]
+          results (jdbc/execute! data-source query)]
       (if (empty? results)
         (println "No events found")
         (doseq [event results]
@@ -40,14 +34,14 @@
       (if (< (count remaining-args) 8)
         (println "To insert an event you need, eventID, name, startTime, length, date,
         location, private and userID")
-        (let [id (first remaining-args)
+        (let [id (Integer/parseInt (first remaining-args))
               name (second remaining-args)
               startTime (nth remaining-args 2)
               length (nth remaining-args 3)
               date (nth remaining-args 4)
               location (nth remaining-args 5)
               private (nth remaining-args 6)
-              userID (last remaining-args)
+              userID (Integer/parseInt (last remaining-args))
               query (sql/format (-> (h/insert-into :EVENTS)
                                     (h/values [{:eventID id
                                                 :name name
@@ -57,7 +51,7 @@
                                                 :location location
                                                 :private private
                                                 :userID userID}])))]
-          (jdbc/execute! ds query)
+          (jdbc/execute! data-source query)
           (println (format "Event listed successfully! eventID=%d, name=%s, startTime=%s, date=%s,location=%s"
                            id name startTime date location)))))
     (catch Exception e
@@ -65,12 +59,12 @@
 
 (defmethod handle-command [:delete :events] [{:keys [args]}]
   ((try
-    (let [remaining-args (rest args)]
+    (let [remaining-args (Integer/parseInt (rest args))]
       (if (int? (first remaining-args))
         (let [id (first remaining-args)
               query (sql/format (-> (h/delete-from :EVENTS)
                                     (h/where [:= :eventID id])))]
-          (jdbc/execute! ds query)
+          (jdbc/execute! data-source query)
           (println "successfully deleted"))
         (println "Make sure ID is first value")))
      (catch Exception e
@@ -79,12 +73,12 @@
 (defmethod handle-command [:update :events] [{:keys [args]}]
   ((try
      (let [remaining-args (rest args)]
-       (let [id (first remaining-args)
+       (let [id (Integer/parseInt (first remaining-args))
              update-col (second remaining-args)
              new-val (nth remaining-args 2)
              query (sql/format (-> (h/update :EVENTS)
                                    (h/set {update-col new-val})
                                    (h/where [:= :eventID id])))]
-         (jdbc/execute! ds query)))
+         (jdbc/execute! data-source query)))
      (catch Exception e
        (println "Error updating event" (.getMessage e))))))

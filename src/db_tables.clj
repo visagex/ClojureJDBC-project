@@ -65,4 +65,5 @@
 
 ;;make it explicit if you want to create tables
 (defmethod handle-command [:init :table] [{:keys [args]}]
-  (create-all data-source))
+  (create-all data-source)
+  (println "initialized tables"))
