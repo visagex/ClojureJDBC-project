@@ -23,7 +23,7 @@
                        (h/with-columns
                          [[:eventID :int [:not nil]]
                           [:name [:varchar 32] [:default ""]]
-                          [:startTime :datetime]
+                          [:startTime :time]
                           [:length :time]
                           [:date :date]
                           [:location :text]
