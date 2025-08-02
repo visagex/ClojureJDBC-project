@@ -67,3 +67,12 @@
 (defmethod handle-command [:init :table] [{:keys [args]}]
   (create-all data-source)
   (println "initialized tables"))
+
+(defmethod handle-command [:drop :table] [{:keys [args]}]
+  (try
+    (let [table-name (keyword (second args))
+          query (sql/format (-> (h/drop-table table-name)))]
+      (jdbc/execute! data-source query)
+      (println table-name))
+    (catch Exception e
+      (println "Error dropping table" (.getMessage e)))))
