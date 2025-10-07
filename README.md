@@ -53,33 +53,35 @@ A running MySQL database
 Internet access to download dependencies (first time)
 Running the Project
 Use the Clojure CLI to run commands from the terminal:
-clojure -M -m core <command> [arguments]
+```clojure -M -m core <command> [arguments]```
 Replace <command> and [arguments] with what you want to do.
 # Example Commands
 # Create all required tables in the database
-clojure -M -m core init
+```clojure -M -m core init```
 
 # Drop a specific table
-clojure -M -m core drop-table events
+```clojure -M -m core drop-table events```
 
 # Add a new event
-clojure -M -m core add event "Event Name" "2025-10-07" "Location"
+```clojure -M -m core add event "Event Name" "2025-10-07" "Location"```
 
 # Update an event (example format may vary)
-clojure -M -m core update event 1 "New Name" "2025-12-01" "New Location"
+```clojure -M -m core update event 1 "New Name" "2025-12-01" "New Location"```
 
 # Delete an event by ID
-clojure -M -m core delete event 1
+```clojure -M -m core delete event 1```
 
 # Show help
-clojure -M -m core help
+```clojure -M -m core help```
 
 Configure the Database (MySQL)
 Edit the database settings in src/db.clj:
+```
 (def db-spec
   {:classname   "com.mysql.cj.jdbc.Driver"
    :subprotocol "mysql"
    :subname     "//localhost:3306/your_database_name"
    :user        "your_mysql_username"
    :password    "your_mysql_password"})
+```
 Make sure you have the MySQL JDBC driver in your dependencies (check deps.edn) and that the MySQL server is running and accessible.
