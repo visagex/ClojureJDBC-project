@@ -1,4 +1,4 @@
-What is it?
+# What is it?
 ClojureJDBC‑Project is a small Clojure-based command-line tool for managing the database schema and data operations of an event management system via JDBC. It lets users initialize, drop, add, update, and delete database tables and records via simple commands.
 It’s essentially a minimal CRUD + DDL manager for a relational schema backing events, attendance, users, etc.
 What problem(s) does it strive to solve?
@@ -7,14 +7,14 @@ Allowing users to create (init) or drop tables easily via commands, without manu
 Providing data-level operations (insert, update, delete) against those tables via a uniform interface.
 Abstracting away JDBC boilerplate so that the user can focus on domain logic (i.e. events, attendance) instead of raw SQL/JDBC plumbing.
 Serving as a learning tool / project scaffold for database‑driven Clojure applications.
-Core abstractions
+# Core abstractions
 From reviewing the project and the directory structure, the main abstractions are:
 Database / JDBC abstraction — a wrapper around JDBC to run SQL, manage connections, execute DDL or DML.
 Table / Schema abstractions — representing tables (e.g. events, attendance) with columns, definitions, etc.
 Command / CLI abstractions — mapping user commands (e.g. init, drop-table, add, update, delete) to operations on the schema or data.
 Entities / Domain tables — the domain model (events, participants, attendance, etc) which map to underlying database tables.
 These abstractions separate what operations (commands) from how they are executed (JDBC / SQL).
-Primary operations
+# Primary operations
 Here are the key operations (commands) the tool supports:
 Command / Operation	Description
 init / “initialize tables”	Creates all necessary tables for the event management schema in the database
@@ -24,7 +24,7 @@ update	Update an existing record in a table
 delete	Delete a record from a table
 help, help events, help attendance, etc	Print help / usage instructions for commands or domain areas
 These operations allow the user to fully manage both schema and data at runtime via a set of commands.
-Architectural Components
+# Architectural Components
 Here’s how the pieces likely fit together:
 CLI / Command Dispatcher: The entry point reads the user’s command arguments, parses which operation is requested, and dispatches to the correct handler.
 Schema / DDL Manager: Provides functions to generate and run DDL statements to create or drop tables.
@@ -33,19 +33,19 @@ Domain Layer: Contains domain-specific logic (e.g. event, attendance) that knows
 Configuration / Dependency Definitions: deps.edn for dependencies (incl. JDBC driver, etc), configuration for connecting to the database (host, port, user, password).
 There are no external services (e.g. web servers, message queues) — it’s a single binary/CLI tool that interacts directly with a relational DB via JDBC.
 Dependencies include a JDBC driver and whatever connection-handling library the code uses (likely clojure.java.jdbc or similar).
-Is it simple?
+# Is it simple?
 In many respects, yes:
 It is stateless (except for the DB) — each command runs, executes SQL, and exits.
 No circular dependencies — the layers are fairly linear (CLI → domain → JDBC).
 There is no heavy infrastructure or external components; everything is local.
-Fundamental tradeoffs
+# Fundamental tradeoffs
 Gives up flexibility of full ORM / richer abstractions in exchange for simplicity and explicit control. You write or generate SQL in code, but you avoid the complexity of full-blown ORM frameworks.
 No built-in migration system: schema evolution beyond “init / drop” would require manual code changes.
 No abstraction over different RDBMS dialects: It assumes a single SQL dialect (MySql) which may reduce portability.
 Error propagation / rollback sophistication is limited: if operations fail midway, you trade off ease-of-implementation for more manual control of transaction boundaries.
 CLI-only interface: It’s not built as a service or web API, so integration with other systems is limited unless extended.
 
-How to run: 
+# How to run: 
 Prerequisites
 Clojure CLI tools
 Java 8 or higher
@@ -55,7 +55,7 @@ Running the Project
 Use the Clojure CLI to run commands from the terminal:
 clojure -M -m core <command> [arguments]
 Replace <command> and [arguments] with what you want to do.
-Example Commands
+# Example Commands
 # Create all required tables in the database
 clojure -M -m core init
 
