@@ -16,13 +16,12 @@ Entities / Domain tables — the domain model (events, participants, attendance,
 These abstractions separate what operations (commands) from how they are executed (JDBC / SQL).
 # Primary operations
 Here are the key operations (commands) the tool supports:
-Command / Operation	Description
-init / “initialize tables”	Creates all necessary tables for the event management schema in the database
-drop-table <tablename>	Drops the specified table
-add	Insert a record into a given table
-update	Update an existing record in a table
-delete	Delete a record from a table
-help, help events, help attendance, etc	Print help / usage instructions for commands or domain areas
+```init``` / “initialize tables”	Creates all necessary tables for the event management schema in the database
+```drop-table``` <tablename>	Drops the specified table
+```add```	Insert a record into a given table
+```update```	Update an existing record in a table
+```delete```	Delete a record from a table
+```help```, help events, help attendance, etc	Print help / usage instructions for commands or domain areas
 These operations allow the user to fully manage both schema and data at runtime via a set of commands.
 # Architectural Components
 Here’s how the pieces likely fit together:
