@@ -24,14 +24,13 @@ Here are the key operations (commands) the tool supports:
 ```help```, help events, help attendance, etc	Print help / usage instructions for commands or domain areas
 These operations allow the user to fully manage both schema and data at runtime via a set of commands.
 # Architectural Components
-Here’s how the pieces likely fit together:
 CLI / Command Dispatcher: The entry point reads the user’s command arguments, parses which operation is requested, and dispatches to the correct handler.
 Schema / DDL Manager: Provides functions to generate and run DDL statements to create or drop tables.
 Data Access / JDBC Layer: Wraps database connection setup, statement execution, transaction handling, and error handling.
 Domain Layer: Contains domain-specific logic (e.g. event, attendance) that knows table names, column names, and how to map user-provided values to SQL statements.
 Configuration / Dependency Definitions: deps.edn for dependencies (incl. JDBC driver, etc), configuration for connecting to the database (host, port, user, password).
 There are no external services (e.g. web servers, message queues) — it’s a single binary/CLI tool that interacts directly with a relational DB via JDBC.
-Dependencies include a JDBC driver and whatever connection-handling library the code uses (likely clojure.java.jdbc or similar).
+Dependencies include a [next.jdbc]([url](https://github.com/seancorfield/next-jdbc)) and [HoneySql]([url](https://github.com/seancorfield/honeysql)).
 # Is it simple?
 In many respects, yes:
 It is stateless (except for the DB) — each command runs, executes SQL, and exits.
