@@ -1,11 +1,11 @@
 # What is it?
-ClojureJDBC‑Project is a small Clojure-based command-line tool for managing the database schema and data operations of an event management system via JDBC. It lets users initialize, drop, add, update, and delete database tables and records via simple commands.
-It’s essentially a minimal CRUD + DDL manager for a relational schema backing events, attendance, users, etc.
-What problem(s) does it strive to solve?
+ClojureJDBC‑Project is a small Clojure-based command-line tool for managing the database of an event management system via JDBC. It lets users initialize, drop, add, update, and delete database tables and records via simple commands.
+
+# What problem(s) does it strive to solve?
 Managing the schema and data of an event management system often involves writing SQL, running migrations, or wiring up data access layers. This project aims to simplify that by:
 Allowing users to create (init) or drop tables easily via commands, without manually writing DDL.
 Providing data-level operations (insert, update, delete) against those tables via a uniform interface.
-Abstracting away JDBC boilerplate so that the user can focus on domain logic (i.e. events, attendance) instead of raw SQL/JDBC plumbing.
+Abstracting away JDBC boilerplate so that the user can focus on domain logic (i.e. events, attendance) instead of raw SQL/JDBC.
 Serving as a learning tool / project scaffold for database‑driven Clojure applications.
 # Core abstractions
 From reviewing the project and the directory structure, the main abstractions are:
