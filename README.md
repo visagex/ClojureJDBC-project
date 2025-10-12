@@ -8,7 +8,7 @@ Providing data-level operations (insert, update, delete) against those tables vi
 Abstracting away JDBC boilerplate so that the user can focus on domain logic (i.e. events, attendance) instead of raw SQL/JDBC.
 Serving as a learning tool / project scaffold for database‑driven Clojure applications.
 # Core abstractions
-From reviewing the project and the directory structure, the main abstractions are:
+The main abstractions are:
 Database / JDBC abstraction — a wrapper around JDBC to run SQL, manage connections, execute DDL or DML.
 Table / Schema abstractions — representing tables (e.g. events, attendance) with columns, definitions, etc.
 Command / CLI abstractions — mapping user commands (e.g. init, drop-table, add, update, delete) to operations on the schema or data.
