@@ -37,7 +37,7 @@ It is stateless (except for the DB) — each command runs, executes SQL, and exi
 No circular dependencies — the layers are fairly linear (CLI → domain → JDBC).
 There is no heavy infrastructure or external components; everything is local.
 # Fundamental tradeoffs
-Gives up flexibility of full ORM / richer abstractions in exchange for simplicity and explicit control. You write or generate SQL in code, but you avoid the complexity of full-blown ORM frameworks.
+Generates SQL in code, but avoids the complexity of full-blown ORM frameworks.
 No built-in migration system: schema evolution beyond “init / drop” would require manual code changes.
 No abstraction over different RDBMS dialects: It assumes a single SQL dialect (MySql) which may reduce portability.
 Error propagation / rollback sophistication is limited: if operations fail midway, you trade off ease-of-implementation for more manual control of transaction boundaries.
